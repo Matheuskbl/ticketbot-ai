@@ -1,4 +1,4 @@
-﻿package com.ticketbotai.controller;
+package com.ticketbotai.controller;
 
 public class TicketController {
     

@@ -1,4 +1,4 @@
-﻿package com.ticketbotai.config;
+package com.ticketbotai.config;
 
 public class SecurityConfig {
     

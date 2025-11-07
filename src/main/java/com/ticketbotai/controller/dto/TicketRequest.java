@@ -1,4 +1,4 @@
-﻿package com.ticketbotai.controller.dto;
+package com.ticketbotai.controller.dto;
 
 public class TicketRequest {
     

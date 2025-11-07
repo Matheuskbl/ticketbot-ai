@@ -1,4 +1,4 @@
-﻿package com.ticketbotai.model;
+package com.ticketbotai.model;
 
 public enum TicketStatus {
     OPEN,

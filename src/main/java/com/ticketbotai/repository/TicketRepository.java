@@ -1,4 +1,4 @@
-﻿package com.ticketbotai.repository;
+package com.ticketbotai.repository;
 
 import com.ticketbotai.model.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-﻿package com.ticketbotai.service;
+package com.ticketbotai.service;
 
 public class TicketService {
     
