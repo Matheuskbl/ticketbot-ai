@@ -1,6 +1,5 @@
 package com.ticketbotai.service;
 
-<<<<<<< HEAD
 import com.ticketbotai.controller.dto.TicketRequest;
 import com.ticketbotai.model.Ticket;
 import com.ticketbotai.model.TicketCategory; // Importe o seu Enum
@@ -80,9 +79,3 @@ public class TicketService {
         }
     }
 }
-=======
-public class TicketService {
-    
-}
-
->>>>>>> 0bf7e357bce491e09e9243ea95f9e7fc56634749

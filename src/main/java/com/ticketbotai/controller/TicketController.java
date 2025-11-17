@@ -1,6 +1,5 @@
 package com.ticketbotai.controller;
 
-<<<<<<< HEAD
 import com.ticketbotai.controller.dto.TicketRequest;
 import com.ticketbotai.model.Ticket;
 import com.ticketbotai.service.TicketService;
@@ -40,9 +39,3 @@ public class TicketController {
         return ticketService.getTicketById(id);
     }
 }
-=======
-public class TicketController {
-    
-}
-
->>>>>>> 0bf7e357bce491e09e9243ea95f9e7fc56634749
