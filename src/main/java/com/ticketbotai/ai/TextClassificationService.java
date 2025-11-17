@@ -18,7 +18,12 @@ public class TextClassificationService {
 
     private Classifier classifier;
     private StringToWordVector filter;
+<<<<<<< HEAD
     private Instances dataStructure; // Irá guardar a estrutura ANTES de filtrar
+=======
+    private Instances dataStructure;
+    private Attribute textAttribute;
+>>>>>>> 0bf7e357bce491e09e9243ea95f9e7fc56634749
     private Attribute classAttribute;
 
     @PostConstruct
@@ -26,10 +31,14 @@ public class TextClassificationService {
         try {
             buildClassifier();
         } catch (Exception e) {
+<<<<<<< HEAD
             // Se isto falhar, veremos no log de arranque
             System.err.println("!!!!!!!!!!!! ERRO AO CONSTRUIR CLASSIFICADOR !!!!!!!!!!!!");
             e.printStackTrace();
             System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+=======
+            e.printStackTrace();
+>>>>>>> 0bf7e357bce491e09e9243ea95f9e7fc56634749
         }
     }
 
@@ -46,6 +55,7 @@ public class TextClassificationService {
             data.setClassIndex(data.numAttributes() - 1);
         }
 
+<<<<<<< HEAD
         // --- CORREÇÃO DE LÓGICA DE BUILD ---
         
         // 1. Guarda a estrutura ORIGINAL (não filtrada)
@@ -63,15 +73,31 @@ public class TextClassificationService {
         // 4. Constrói o classificador com os dados JÁ FILTRADOS
         this.classifier = new NaiveBayes();
         classifier.buildClassifier(filteredData);
+=======
+        this.filter = new StringToWordVector();
+        filter.setInputFormat(data);
+        Instances filteredData = Filter.useFilter(data, filter);
+
+        this.classifier = new NaiveBayes();
+        classifier.buildClassifier(filteredData);
+
+        this.dataStructure = filteredData.stringFreeStructure();
+        this.textAttribute = data.attribute(0);
+        this.classAttribute = data.attribute(data.classIndex());
+>>>>>>> 0bf7e357bce491e09e9243ea95f9e7fc56634749
     }
 
     public String classifyTicket(String text) {
         if (this.classifier == null) {
+<<<<<<< HEAD
             // Se o buildClassifier() falhou no arranque
+=======
+>>>>>>> 0bf7e357bce491e09e9243ea95f9e7fc56634749
             return "Erro: Classificador não foi treinado.";
         }
 
         try {
+<<<<<<< HEAD
             // --- CORREÇÃO DE LÓGICA DE CLASSIFICAÇÃO ---
             
             // 1. Cria um 'holder' baseado na estrutura ORIGINAL (com o atributo String)
@@ -96,12 +122,31 @@ public class TextClassificationService {
             double predictionIndex = classifier.classifyInstance(filteredInstance.firstInstance());
             
             // 7. Retorna o nome da classe
+=======
+            Instances testInstanceHolder = new Instances(this.dataStructure, 0);
+            
+            DenseInstance newInstance = new DenseInstance(2);
+            newInstance.setDataset(testInstanceHolder);
+            
+            newInstance.setValue(this.textAttribute, text);
+            
+            testInstanceHolder.add(newInstance);
+
+            Instances filteredInstance = Filter.useFilter(testInstanceHolder, this.filter);
+
+            double predictionIndex = classifier.classifyInstance(filteredInstance.firstInstance());
+            
+>>>>>>> 0bf7e357bce491e09e9243ea95f9e7fc56634749
             return this.classAttribute.value((int) predictionIndex);
 
         } catch (Exception e) {
             e.printStackTrace();
+<<<<<<< HEAD
             // Este erro agora significa uma falha na *predição*
             return "Erro durante a classificação"; 
+=======
+            return "Erro durante a classificação";
+>>>>>>> 0bf7e357bce491e09e9243ea95f9e7fc56634749
         }
     }
 }
