@@ -1,0 +1,15 @@
+@relation TicketClassification
+
+@attribute text String
+@attribute category {'Bug Crítico', 'Dúvida Cobrança', 'Falha Hardware'}
+
+@data
+'Meu mouse parou de funcionar e a tela quebrou', 'Falha Hardware'
+'o monitor está piscando e o computador não liga', 'Falha Hardware'
+'o teclado não funciona', 'Falha Hardware'
+'Recebi uma fatura duplicada este mês', 'Dúvida Cobrança'
+'Gostaria de saber o valor do meu plano', 'Dúvida Cobrança'
+'Não entendi esta taxa no meu extrato', 'Dúvida Cobrança'
+'O sistema deu tela azul e travou tudo', 'Bug Crítico'
+'Não consigo salvar o formulário, dá erro 500', 'Bug Crítico'
+'O login parou de funcionar depois da atualização', 'Bug Crítico'

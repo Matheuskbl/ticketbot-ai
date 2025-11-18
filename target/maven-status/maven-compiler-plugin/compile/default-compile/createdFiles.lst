@@ -1,0 +1,11 @@
+com\ticketbotai\model\TicketCategory.class
+com\ticketbotai\controller\dto\TicketRequest.class
+com\ticketbotai\graph\SupportWorkflowGraph.class
+com\ticketbotai\TicketBotAiApplication.class
+com\ticketbotai\controller\TicketController.class
+com\ticketbotai\model\TicketStatus.class
+com\ticketbotai\repository\TicketRepository.class
+com\ticketbotai\ai\TextClassificationService.class
+com\ticketbotai\service\TicketService.class
+com\ticketbotai\model\Ticket.class
+com\ticketbotai\config\SecurityConfig.class
