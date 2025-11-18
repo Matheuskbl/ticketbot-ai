@@ -4,7 +4,5 @@ public enum TicketCategory {
     BUG_CRITICO,
     DUVIDA_COBRANCA,
     FALHA_HARDWARE,
-    PROBLEMA_REDE,
-    SOLICITACAO_FUNCIONALIDADE,
-    OUTROS
+    OUTROS // Categoria de segurança caso a IA falhe
 }

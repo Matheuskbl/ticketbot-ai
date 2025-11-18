@@ -2,15 +2,17 @@ package com.ticketbotai.service;
 
 import com.ticketbotai.controller.dto.TicketRequest;
 import com.ticketbotai.model.Ticket;
-import com.ticketbotai.model.TicketCategory; // Importe o seu Enum
+import com.ticketbotai.model.TicketCategory;
 import com.ticketbotai.repository.TicketRepository;
-import com.ticketbotai.ai.TextClassificationService; // Pilar IA
-import com.ticketbotai.graph.SupportWorkflowGraph;  // Pilar Grafo
+import com.ticketbotai.ai.TextClassificationService;
+import com.ticketbotai.graph.SupportWorkflowGraph;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
+import java.text.Normalizer; // Importante para remover acentos
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class TicketService {
@@ -27,55 +29,55 @@ public class TicketService {
         this.workflowGraph = workflowGraph;
     }
 
-    /**
-     * Lógica para criar um novo ticket (POST)
-     */
     public Ticket createTicket(TicketRequest request) {
         
-        // 1. Pilar IA: (CORRIGIDO)
-        // Usa o método correto 'classifyTicket'. Retorna uma String, ex: "Falha Hardware"
-        String categoryName = aiService.classifyTicket(request.description());
+        // 1. IA Classifica (Retorna ex: "Dúvida Cobrança" ou "Falha Hardware")
+        String categoryNameRaw = aiService.classifyTicket(request.description());
 
-        // 2. Pilar Grafo: (CORRIGIDO)
-        // Usa o método correto 'findOptimalRoute' e a String da IA como nó de início.
-        String assignedTeam = workflowGraph.findOptimalRoute(categoryName);
+        // 2. Grafo Roteia (Usa a string original, pois o grafo usa chaves com acento)
+        String assignedTeam = workflowGraph.findOptimalRoute(categoryNameRaw);
 
-        // 3. Conversão para Enum (para salvar no BD)
-        // Converte a String (ex: "Falha Hardware") para o formato Enum (ex: FALHA_HARDWARE)
-        TicketCategory categoryEnum;
-        try {
-            // Converte "Falha Hardware" -> "FALHA_HARDWARE"
-            String enumName = categoryName.toUpperCase().replace(" ", "_");
-            categoryEnum = TicketCategory.valueOf(enumName);
-        } catch (Exception e) {
-            // Se a conversão falhar (ex: a String da IA não bate com o Enum)
-            throw new IllegalArgumentException("Categoria da IA '" + categoryName + "' não corresponde a um Enum TicketCategory válido.");
-        }
+        // 3. Conversão Blindada para Enum (Remove acentos e espaços)
+        TicketCategory categoryEnum = mapToEnum(categoryNameRaw);
 
-        // 4. Monta a Entidade
+        // 4. Monta e Salva
         Ticket newTicket = new Ticket();
         newTicket.setTitle(request.title());
         newTicket.setDescription(request.description());
-        newTicket.setCategory(categoryEnum);      // Salva o Enum
-        newTicket.setAssignedTeam(assignedTeam); // Salva a String da Equipa
+        newTicket.setCategory(categoryEnum);
+        newTicket.setAssignedTeam(assignedTeam);
 
-        // 5. Pilar Persistência (JPA): Salva no banco de dados
         return ticketRepository.save(newTicket);
     }
 
-    /**
-     * Lógica para ler um ticket (GET)
-     */
     public Ticket getTicketById(Long id) {
         Optional<Ticket> ticket = ticketRepository.findById(id);
-
         if (ticket.isPresent()) {
             return ticket.get();
         } else {
-            throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, 
-                "Ticket com ID " + id + " não encontrado."
-            );
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket não encontrado.");
+        }
+    }
+
+    // --- MÉTODO AUXILIAR PARA "TRADUZIR" A STRING DA IA ---
+    private TicketCategory mapToEnum(String rawCategory) {
+        try {
+            // 1. Normaliza (separa os acentos das letras)
+            String normalized = Normalizer.normalize(rawCategory, Normalizer.Form.NFD);
+            // 2. Remove os acentos usando Regex
+            Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+            String noAccent = pattern.matcher(normalized).replaceAll("");
+            
+            // 3. Transforma em formato de Enum (Maiúsculas e com Underline)
+            // Ex: "Duvida Cobranca" -> "DUVIDA_COBRANCA"
+            String enumKey = noAccent.toUpperCase().replace(" ", "_");
+            
+            return TicketCategory.valueOf(enumKey);
+        } catch (Exception e) {
+            // Se mesmo assim falhar, ou se a IA devolver um erro, salvamos como OUTROS
+            // para não quebrar a aplicação com erro 500.
+            System.err.println("Falha ao converter categoria: " + rawCategory);
+            return TicketCategory.OUTROS;
         }
     }
 }

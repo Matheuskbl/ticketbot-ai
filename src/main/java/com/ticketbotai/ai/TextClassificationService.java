@@ -29,12 +29,11 @@ public class TextClassificationService {
             System.out.println("--- IA TREINADA COM SUCESSO ---");
         } catch (Exception e) {
             System.err.println("!!!!!!!!!!!! ERRO FATAL AO TREINAR IA !!!!!!!!!!!!");
-            e.printStackTrace(); // ISSO VAI MOSTRAR O ERRO NO TERMINAL
+            e.printStackTrace();
         }
     }
 
     public void buildClassifier() throws Exception {
-        // Tenta carregar o arquivo
         InputStream is = getClass().getClassLoader().getResourceAsStream("data/training-data.arff");
         if (is == null) {
             throw new Exception("ERRO DE CAMINHO: Arquivo 'data/training-data.arff' não encontrado em src/main/resources/data/");
