@@ -1,0 +1,118 @@
+:root {
+    --cor-fundo-body: #0a0e17;
+    --cor-fundo-container: #1c2541;
+    --cor-texto-primario: #e6e6e6;
+    --cor-texto-secundario: #a0aec0;
+    --cor-destaque: #7f5af0;
+    --cor-destaque-hover: #9677f3;
+}
+
+body {
+    background-color: var(--cor-fundo-body);
+    color: var(--cor-texto-primario);
+    font-family: sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.meu-container-principal {
+    background-color: var(--cor-fundo-container);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0, 0.5);
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+}
+
+h1, h2, h3 {
+    color: var(--cor-texto-primario);
+    margin-top: 0;
+}
+
+p {
+    color: var(--cor-texto-secundario);
+    line-height: 1.6;
+}
+
+.btn-exemplo {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: var(--cor-destaque);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-exemplo:hover {
+    background-color: var(--cor-destaque-hover);
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left; /* Garante que os labels fiquem à esquerda */
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--cor-texto-primario);
+}
+
+/* Estilo dos Inputs e Textareas para o tema escuro */
+.form-input {
+    width: 100%;
+    padding: 12px;
+    background-color: #0a0e17; /* Fundo escuro */
+    border: 1px solid #2d3748;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    box-sizing: border-box; /* Garante que o padding não quebre o layout */
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--cor-destaque); /* Roxo ao clicar */
+}
+
+.result-box {
+    margin-top: 30px;
+    background-color: #2d3748; 
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 5px solid #48bb78;
+    text-align: left;
+}
+
+.result-box hr {
+    border-color: #4a5568;
+    margin: 15px 0;
+}
+
+.tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-left: 8px;
+}
+
+.tag-ia {
+    background-color: var(--cor-destaque);
+    color: white;
+}
+
+.tag-team {
+    background-color: #ed8936;
+    color: white;
+}
